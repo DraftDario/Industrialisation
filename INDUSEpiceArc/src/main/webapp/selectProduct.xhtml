@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>#{msg.productSelection}</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/main.xhtml">
+            <ui:define name="top">#{msg.productSelection}</ui:define>
+            <ui:define name="content">
+                <center>
+                    <h:panelGroup layout="block" styleClass="form-container">
+
+                        <h:form id="selectType" >
+                            <h:panelGroup id="groupConifer" layout="block"   > 
+                                <div class="form-title">#{msg.coniferType}</div>
+                                <h:selectOneMenu styleClass="form-field" value="#{selectProduct.ct}" id="coniferTypeSelectOneMenu" onchange="submit()" valueChangeListener="#{selectProduct.coniferChange}"  >
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{msg.emptylist}"  />
+                                    <f:selectItems value="#{selectProduct.enumerateType}"
+                                                   var="e"
+                                                   itemValue="#{e}"
+                                                   itemLabel="#{e.code}" />
+                                </h:selectOneMenu> 
+                            </h:panelGroup>
+                            <br/>
+                            <h:panelGroup layout="block"  id="groupSize" >
+                                <h:panelGroup  id="selectSize" rendered="#{selectProduct.ct ne null}" >
+                                    <div class="form-title">#{msg.coniferSize}</div>
+                                    <h:selectOneMenu styleClass="form-field" value="#{selectProduct.prod}" id="coniferSizeSelectOneMenu" onchange="submit()" valueChangeListener="#{selectProduct.sizeChange}" >
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{msg.emptylist}"  />
+                                        <f:selectItems value="#{selectProduct.products}" />
+                                        <f:converter binding="#{productconverter}"  />
+                                    </h:selectOneMenu> 
+                                </h:panelGroup>   
+                            </h:panelGroup>
+                            <br/>
+                            <h:panelGroup id="selectDeliveryDate" layout="block"   rendered="#{selectProduct.deliveries ne null}">
+                                <div class="form-title">#{msg.deliveryDate}</div>
+                                <h:selectOneMenu styleClass="form-field" value="#{selectProduct.selectDeliveryDate}" id="coniferDateAvaiblSelectOneMenu" onchange="submit()" valueChangeListener="#{selectProduct.deliveryChange}" >
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{msg.emptylist}" />
+                                    <f:selectItems value="#{selectProduct.deliveries}" /> 
+                                    <f:converter binding="#{abstracdateconverter}"  />
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                        </h:form>
+                        <h:form>
+                            <h:panelGroup id="selectPickUpDate"  layout="block"  rendered="#{selectProduct.pickups ne null}">
+                                <div class="form-title">#{msg.pickupDate}</div>
+                                <h:selectOneMenu  required="true" requiredMessage="#{msg.pickupdaterequire}"  styleClass="form-field" value="#{selectProduct.selectPickUpDate}" id="coniferDatePickSelectOneMenu" onchange="submit()" valueChangeListener="#{selectProduct.pickupChange}" >
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{msg.emptylist}"  />
+                                    <f:selectItems value="#{selectProduct.pickups}" />
+                                    <f:converter binding="#{abstracdateconverter}"  />
+                                </h:selectOneMenu> 
+                            </h:panelGroup>
+                            <br/>
+                            <br/>
+                            <h:panelGroup id="validateOrder"   rendered="#{selectProduct.pickups ne null}">
+                                <h:commandButton styleClass="btn" value="#{msg.continue}"
+                                                 action="#{selectProduct.nextStep}" />
+                            </h:panelGroup>
+                        </h:form>
+
+                    </h:panelGroup>
+                </center>
+            </ui:define>
+        </ui:composition>
+    </h:body> 
+</html>
+

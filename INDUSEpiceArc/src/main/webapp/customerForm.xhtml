@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>#{msg.personalInfo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition template="/main.xhtml">
+            <ui:define name="top">#{msg.personalInfo}</ui:define>
+            <ui:define name="content">
+                <center><h:form styleClass="form-container">
+                        <div class="form-title">#{msg.firstName}</div>
+                        <h:inputText styleClass="form-field"
+                                     required ="true"
+                                     requiredMessage="#{msg.firstName} #{msg.required}"
+                                     value="#{customerForm.customer.firstName}">
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.lastName}</div>  
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.lastName} #{msg.required}"
+                                     value="#{customerForm.customer.lastName}">
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.address}</div>  
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.address} #{msg.required}"
+                                     value="#{customerForm.customer.address}">
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.zip}</div>  
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.zip} #{msg.required}"
+                                     value="#{customerForm.customer.zip}"
+                                     validatorMessage="#{msg.falseZip}">
+                            <f:validateLongRange minimum="1000" maximum="9999"/>
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.city}</div> 
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.city} #{msg.required}"
+                                     value="#{customerForm.customer.city}">
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.phone}</div> 
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.phone} #{msg.required}"
+                                     value="#{customerForm.customer.phone}"
+                                     validatorMessage="#{msg.falsePhone}">
+                            <f:validateRegex pattern="^[0-9]{3}[\/\.\s\-]{0,1}[0-9]{3}[\/\.\s\-]{0,1}[0-9]{2}[\/\.\s\-]{0,1}[0-9]{2}$" />
+                        </h:inputText>
+                        <br/>
+                        <div class="form-title">#{msg.email}</div> 
+                        <h:inputText required ="true"
+                                     styleClass="form-field"
+                                     requiredMessage="#{msg.email} #{msg.required}"
+                                     value="#{customerForm.customer.email}"
+                                     validatorMessage="#{msg.falseEmail}">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </h:inputText>
+                        <br/>
+                        <br/>
+                        <center><h:commandButton styleClass="btn" value="#{msg.recap}" action="#{customerForm.saveCustomer()}"/></center>
+                        <br/>
+                        <br/>
+                    </h:form></center>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>#{msg.confirm}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition template="/main.xhtml">
+            <ui:define name="top">#{msg.confirmedOrder}</ui:define>
+            <ui:define name="content">
+                <h:form>
+                    <h1>#{msg.confidenceSentence}</h1>
+                    <h2>#{msg.newCommandSentence}</h2>
+                    <center><h:commandButton styleClass="btn" value="#{msg.newCommande}" action="#{orderConfirmation.deleteOrder()}" /></center>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

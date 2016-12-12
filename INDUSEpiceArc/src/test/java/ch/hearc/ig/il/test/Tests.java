@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  */
 public class Tests {
 
-    private Services services = new Services();
+    private final Services services = new Services();
     private Customer c;
 
     @Test

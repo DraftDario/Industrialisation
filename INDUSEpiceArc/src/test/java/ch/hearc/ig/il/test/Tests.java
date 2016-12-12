@@ -5,10 +5,8 @@
  */
 package ch.hearc.ig.il.test;
 
-import ch.hearc.ig.odi.epicearc.business.DeliveryDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import ch.hearc.ig.odi.epicearc.business.Customer;
+import ch.hearc.ig.odi.epicearc.service.Services;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,13 +15,24 @@ import static org.junit.Assert.*;
  * @author dario.mosca
  */
 public class Tests {
-    
-        @Test
-    public final void testDeliveryDate() {
-        List<DeliveryDate> dates = new ArrayList();
-        dates.add();
 
-        assertTrue();
+    private Services services = new Services();
+    private Customer c;
+
+    @Test
+    public final void testTransportCosts() {
+        Float costs = 30.0f;
+        Float f = services.getTransportCosts();
+
+        assertEquals(costs, f);
     }
-    
+
+    @Test
+    public final void testValidCustomer() {
+        Long id = new Long(1);
+        c = new Customer(id, "Dario", "Mosca", "chemin", "1373", "Chavo",
+                "1234", "a@mail.ch");
+        assertTrue(services.isCustomerValid(c));
+    }
+
 }

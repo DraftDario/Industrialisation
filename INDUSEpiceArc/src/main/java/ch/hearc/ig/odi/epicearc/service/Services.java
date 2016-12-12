@@ -1,4 +1,4 @@
-package ch.hearc.ig.odi.epicearc.service;
+ package ch.hearc.ig.odi.epicearc.service;
 
 import ch.hearc.ig.odi.epicearc.business.AbstractDate;
 import ch.hearc.ig.odi.epicearc.business.ConiferSize;
@@ -313,7 +313,7 @@ public class Services implements Serializable {
      * @return true si tous les champs sont valides, false s'il en manque un ou
      * plusieurs
      */
-    private Boolean isCustomerValid(Customer customer) {
+    public Boolean isCustomerValid(Customer customer) {
         if (customer == null) {
             return false;
         }

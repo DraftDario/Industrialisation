@@ -1,10 +1,7 @@
 package ch.hearc.ig.odi.epicearc.business;
 
 public enum ConiferType {
-
-    SPRUCE("spruce"),
-    NORDMANN("nordmann"),
-    NOBILIS("nobilis");
+    SPRUCE("spruce"), NORDMANN("nordmann"), NOBILIS("nobilis");
 
     private String code;
 
@@ -19,5 +16,7 @@ public enum ConiferType {
     public void setCode(String code) {
         this.code = code;
     }
-
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

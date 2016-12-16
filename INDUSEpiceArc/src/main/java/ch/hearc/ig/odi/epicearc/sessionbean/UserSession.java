@@ -1,15 +1,19 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
  */
 package ch.hearc.ig.odi.epicearc.sessionbean;
 
+import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
+
+import javax.inject.Named;
+
 import ch.hearc.ig.odi.epicearc.business.Customer;
 import ch.hearc.ig.odi.epicearc.business.Order;
-import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 
 /**
  * This class is our "Session" bean, which means that she's in charge to keep
@@ -27,21 +31,12 @@ import javax.inject.Named;
 @SessionScoped
 @Named(value = "userSession")
 public class UserSession implements Serializable {
-
     private Customer customer;
-    private Order currentOrder;
+    private Order    currentOrder;
 
     public UserSession() {
-        customer = new Customer();
+        customer     = new Customer();
         currentOrder = new Order();
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public Order getCurrentOrder() {
@@ -52,4 +47,14 @@ public class UserSession implements Serializable {
         this.currentOrder = currentOrder;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -1,25 +1,31 @@
 package ch.hearc.ig.odi.epicearc.presentation.managedbean;
 
-import ch.hearc.ig.odi.epicearc.sessionbean.UserSession;
-import ch.hearc.ig.odi.epicearc.business.Customer;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
+
 import javax.enterprise.context.RequestScoped;
+
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import ch.hearc.ig.odi.epicearc.business.Customer;
+import ch.hearc.ig.odi.epicearc.sessionbean.UserSession;
 
 /**
  * This Managedbean is for customerForm.xhtml
- * 
+ *
  * @author dario_zakaria
  */
 @Named(value = "customerForm")
 @RequestScoped
 public class customerFormManagedBean {
-
     @Inject
-    UserSession userSession;
-
+    UserSession      userSession;
     private Customer customer;
+
+    /**
+     * Creates a new instance of orderConfirmation
+     */
+    public customerFormManagedBean() {}
 
     /**
      * Set the current customer if exist for a re-order
@@ -34,27 +40,15 @@ public class customerFormManagedBean {
     }
 
     /**
-     * Creates a new instance of orderConfirmation
-     */
-    public customerFormManagedBean() {
-    }
-
-    /**
-     * Getter userSession
+     * Save the customer in the UserSession bean
      *
-     * @return userSession
+     * @return the page orderRecap.xhtml
      */
-    public UserSession getUserSession() {
-        return userSession;
-    }
+    public String saveCustomer() {
+        userSession.setCustomer(customer);
+        userSession.getCurrentOrder().setCustomer(customer);
 
-    /**
-     * Setter userSession
-     *
-     * @param userSession parameter to set
-     */
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
+        return "next";
     }
 
     /**
@@ -76,14 +70,23 @@ public class customerFormManagedBean {
     }
 
     /**
-     * Save the customer in the UserSession bean
+     * Getter userSession
      *
-     * @return the page orderRecap.xhtml
+     * @return userSession
      */
-    public String saveCustomer() {
-        userSession.setCustomer(customer);
-        userSession.getCurrentOrder().setCustomer(customer);
-        return "next";
+    public UserSession getUserSession() {
+        return userSession;
     }
 
+    /**
+     * Setter userSession
+     *
+     * @param userSession parameter to set
+     */
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

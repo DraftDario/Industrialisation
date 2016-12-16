@@ -1,25 +1,31 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
  */
 package ch.hearc.ig.odi.epicearc.presentation.managedbean;
 
-import ch.hearc.ig.odi.epicearc.sessionbean.UserSession;
+import java.io.Serializable;
+
+import java.util.List;
+
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import ch.hearc.ig.odi.epicearc.business.ConiferType;
 import ch.hearc.ig.odi.epicearc.business.DeliveryDate;
 import ch.hearc.ig.odi.epicearc.business.Order;
 import ch.hearc.ig.odi.epicearc.business.PickupDate;
 import ch.hearc.ig.odi.epicearc.business.Product;
 import ch.hearc.ig.odi.epicearc.service.Services;
-import javax.inject.Named;
-import java.io.Serializable;
-import java.util.List;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
+import ch.hearc.ig.odi.epicearc.sessionbean.UserSession;
 
 /**
  * This Managedbean is for selectProduct.xhtml
@@ -41,24 +47,33 @@ public class SelectProductManagedBean implements Serializable {
      * Creates a new instance of SelectProductManagedBean
      */
     @Inject
-    UserSession us;
+    UserSession                us;
     @Inject
-    Services se;
-    private ConiferType ct;
-    private Product prod;
-    private DeliveryDate selectDeliveryDate;
-    private PickupDate selectPickUpDate;
-    private List<Product> products;
+    Services                   se;
+    private ConiferType        ct;
+    private Product            prod;
+    private DeliveryDate       selectDeliveryDate;
+    private PickupDate         selectPickUpDate;
+    private List<Product>      products;
     private List<DeliveryDate> deliveries;
-    private List<PickupDate> pickups;
+    private List<PickupDate>   pickups;
     private @Inject
-    Conversation conversation;
+    Conversation               conversation;
 
     /**
      * Explicit constructor for JSF
      */
-    public SelectProductManagedBean() {
+    public SelectProductManagedBean() {}
 
+    /**
+     * This method allow us to begin a new instance of the conversation if : -
+     * It's not a postback AND - the conversation is transient and not long time
+     * run
+     */
+    public void beginConversation() {
+        if (FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
+            conversation.begin();
+        }
     }
 
     /**
@@ -74,33 +89,10 @@ public class SelectProductManagedBean implements Serializable {
      */
     public void coniferChange(ValueChangeEvent e) {
         beginConversation();
-        this.ct = (ConiferType) e.getNewValue();
+        this.ct  = (ConiferType) e.getNewValue();
         products = se.getProductsForConiferType(ct);
-        prod = null;
+        prod     = null;
         resetDelivries();
-        resetPickups();
-    }
-
-    /**
-     * That event happened when the user changes the selected size. It sets the
-     * coniferous size from the passing value by the event and load the
-     * available delivery dates list.Finally reset the delivery lists if the
-     * selected product is null (first choice in the drop-down list), in any
-     * case the pickups list and selected value in order to hide the drop-down
-     * list in the form if the customers have already made all choices but
-     * change his mind.
-     *
-     * @param e the passing value of the event which contains the selected
-     * coniferous size
-     */
-    public void sizeChange(ValueChangeEvent e) {
-        this.prod = (Product) e.getNewValue();
-        if (prod != null) {
-            selectDeliveryDate = null;
-            deliveries = se.getDeliveryDatesForProduct(prod);
-        } else {
-            resetDelivries();
-        }
         resetPickups();
     }
 
@@ -117,23 +109,13 @@ public class SelectProductManagedBean implements Serializable {
      */
     public void deliveryChange(ValueChangeEvent e) {
         this.selectDeliveryDate = (DeliveryDate) e.getNewValue();
+
         if (selectDeliveryDate != null) {
             selectPickUpDate = null;
-            pickups = se.getPickupDatesForProduct(prod);
+            pickups          = se.getPickupDatesForProduct(prod);
         } else {
             resetPickups();
         }
-    }
-
-    /**
-     * That event happened when the user changes the selected pick up date. It
-     * sets the pick up from the passing value by the event.
-     *
-     * @param e the passing value of the event which contains the selected pick
-     * up date
-     */
-    public void pickupChange(ValueChangeEvent e) {
-        this.selectPickUpDate = (PickupDate) e.getNewValue();
     }
 
     /**
@@ -148,25 +130,78 @@ public class SelectProductManagedBean implements Serializable {
      */
     public String nextStep() {
         Order o = new Order();
+
         o.setDeliveryDate(selectDeliveryDate);
         o.setPickupDate(selectPickUpDate);
         o.setAmount(prod.getPrice() + se.getTransportCosts());
         o.setProduct(prod);
         us.setCurrentOrder(o);
         conversation.end();
+
         return "customerForm";
     }
 
     /**
-     * This method allow us to begin a new instance of the conversation if : -
-     * It's not a postback AND - the conversation is transient and not long time
-     * run
+     * That event happened when the user changes the selected pick up date. It
+     * sets the pick up from the passing value by the event.
+     *
+     * @param e the passing value of the event which contains the selected pick
+     * up date
      */
-    public void beginConversation() {
-        if (FacesContext.getCurrentInstance().isPostback()
-                && conversation.isTransient()) {
-            conversation.begin();
+    public void pickupChange(ValueChangeEvent e) {
+        this.selectPickUpDate = (PickupDate) e.getNewValue();
+    }
+
+    // reseting the diplay lists
+    public void resetDelivries() {
+        deliveries         = null;
+        selectDeliveryDate = null;
+    }
+
+    public void resetPickups() {
+        pickups          = null;
+        selectPickUpDate = null;
+    }
+
+    /**
+     * That event happened when the user changes the selected size. It sets the
+     * coniferous size from the passing value by the event and load the
+     * available delivery dates list.Finally reset the delivery lists if the
+     * selected product is null (first choice in the drop-down list), in any
+     * case the pickups list and selected value in order to hide the drop-down
+     * list in the form if the customers have already made all choices but
+     * change his mind.
+     *
+     * @param e the passing value of the event which contains the selected
+     * coniferous size
+     */
+    public void sizeChange(ValueChangeEvent e) {
+        this.prod = (Product) e.getNewValue();
+
+        if (prod != null) {
+            selectDeliveryDate = null;
+            deliveries         = se.getDeliveryDatesForProduct(prod);
+        } else {
+            resetDelivries();
         }
+
+        resetPickups();
+    }
+
+    public ConiferType getCt() {
+        return ct;
+    }
+
+    public void setCt(ConiferType ct) {
+        this.ct = ct;
+    }
+
+    public List<DeliveryDate> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List<DeliveryDate> deliveries) {
+        this.deliveries = deliveries;
     }
 
     /**
@@ -178,15 +213,20 @@ public class SelectProductManagedBean implements Serializable {
         return (ConiferType[]) se.getConiferTypes().toArray();
     }
 
-    //reseting the diplay lists 
-    public void resetDelivries() {
-        deliveries = null;
-        selectDeliveryDate = null;
+    public List<PickupDate> getPickups() {
+        return pickups;
     }
 
-    public void resetPickups() {
-        pickups = null;
-        selectPickUpDate = null;
+    public void setPickups(List<PickupDate> pickups) {
+        this.pickups = pickups;
+    }
+
+    public Product getProd() {
+        return prod;
+    }
+
+    public void setProd(Product prod) {
+        this.prod = prod;
     }
 
     // From here , there is only the getter and setter of the values
@@ -198,36 +238,12 @@ public class SelectProductManagedBean implements Serializable {
         this.products = products;
     }
 
-    public UserSession getUs() {
-        return us;
-    }
-
-    public void setUs(UserSession us) {
-        this.us = us;
-    }
-
     public Services getSe() {
         return se;
     }
 
     public void setSe(Services se) {
         this.se = se;
-    }
-
-    public ConiferType getCt() {
-        return ct;
-    }
-
-    public void setCt(ConiferType ct) {
-        this.ct = ct;
-    }
-
-    public Product getProd() {
-        return prod;
-    }
-
-    public void setProd(Product prod) {
-        this.prod = prod;
     }
 
     public DeliveryDate getSelectDeliveryDate() {
@@ -246,20 +262,14 @@ public class SelectProductManagedBean implements Serializable {
         this.selectPickUpDate = selectPickUpDate;
     }
 
-    public List<DeliveryDate> getDeliveries() {
-        return deliveries;
+    public UserSession getUs() {
+        return us;
     }
 
-    public void setDeliveries(List<DeliveryDate> deliveries) {
-        this.deliveries = deliveries;
+    public void setUs(UserSession us) {
+        this.us = us;
     }
-
-    public List<PickupDate> getPickups() {
-        return pickups;
-    }
-
-    public void setPickups(List<PickupDate> pickups) {
-        this.pickups = pickups;
-    }
-
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

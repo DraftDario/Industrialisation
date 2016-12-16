@@ -10,8 +10,7 @@ public class MissingParameterException extends Exception {
      * Creates a new instance of <code>MissingParameterException</code> without
      * detail message.
      */
-    public MissingParameterException() {
-    }
+    public MissingParameterException() {}
 
     /**
      * Constructs an instance of <code>MissingParameterException</code> with the
@@ -23,3 +22,6 @@ public class MissingParameterException extends Exception {
         super(msg);
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

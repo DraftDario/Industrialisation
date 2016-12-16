@@ -1,6 +1,7 @@
 package ch.hearc.ig.odi.epicearc.business;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 /**
@@ -8,21 +9,42 @@ import java.util.Date;
  * @author julien.plumez
  */
 public abstract class AbstractDate {
-
-    private Long id;
-    private Date date;
+    private Long        id;
+    private Date        date;
     private ConiferType coniferType;
 
-    protected AbstractDate() {
-
-    }
+    protected AbstractDate() {}
 
     protected AbstractDate(Long id, Date date, ConiferType coniferType) {
         this();
-
-        this.id = id;
-        this.date = date;
+        this.id          = id;
+        this.date        = date;
         this.coniferType = coniferType;
+    }
+
+    /**
+     * Override it to get the specific date
+     * @return the date formated
+     */
+    @Override
+    public String toString() {
+        return getFormatedDate();
+    }
+
+    public ConiferType getConiferType() {
+        return coniferType;
+    }
+
+    public void setConiferType(ConiferType coniferType) {
+        this.coniferType = coniferType;
+    }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getFormatedDate() {
@@ -36,29 +58,7 @@ public abstract class AbstractDate {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public ConiferType getConiferType() {
-        return coniferType;
-    }
-
-    public void setConiferType(ConiferType coniferType) {
-        this.coniferType = coniferType;
-    }
-
-    /**
-     * Override it to get the specific date
-     * @return the date formated 
-     */
-    @Override
-    public String toString() {
-        return getFormatedDate();
-    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -1,11 +1,7 @@
 package ch.hearc.ig.odi.epicearc.business;
 
 public enum ConiferSize {
-
-    MINI("mini"),
-    SMALL("small"),
-    MEDIUM("medium"),
-    BIG("big");
+    MINI("mini"), SMALL("small"), MEDIUM("medium"), BIG("big");
 
     private String code;
 
@@ -20,5 +16,7 @@ public enum ConiferSize {
     public void setCode(String code) {
         this.code = code;
     }
-
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

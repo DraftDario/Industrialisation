@@ -1,18 +1,22 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
  */
 package ch.hearc.ig.odi.epicearc.presentation.converter;
 
-import ch.hearc.ig.odi.epicearc.business.AbstractDate;
-import ch.hearc.ig.odi.epicearc.service.Services;
 import javax.enterprise.context.RequestScoped;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import ch.hearc.ig.odi.epicearc.business.AbstractDate;
+import ch.hearc.ig.odi.epicearc.service.Services;
 
 /**
  * Custom converter for the Deliveries and Pick ups Drop-down list. Since the both
@@ -26,7 +30,6 @@ import javax.inject.Named;
 @RequestScoped
 @Named(value = "abstracdateconverter")
 public class AbstracDateLOVConverter implements Converter {
-
     @Inject
     Services se;
 
@@ -42,9 +45,11 @@ public class AbstracDateLOVConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         Object r = null;
+
         if (!value.equals("")) {
             r = se.getAbstractDateWithId(Long.valueOf(value));
         }
+
         return r;
     }
 
@@ -59,11 +64,16 @@ public class AbstracDateLOVConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         String r = "";
+
         if (value != null) {
             AbstractDate d = (AbstractDate) value;
+
             r = String.valueOf((d.getId()));
         }
+
         return r;
     }
-
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

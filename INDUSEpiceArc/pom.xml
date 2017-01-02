@@ -79,5 +79,59 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profile>
+        <id>production</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+            <os>
+                <arch>x64</arch>
+                <family>windows</family>
+            </os>
+            <property>
+                <name>profile</name>
+                <value>integration</value>
+            </property>
+            <file>
+                <exists>
+                    ${glassfish.glassfishDirectory}/domains/${glassfish.domain.name}/config/domain.passwords
+                </exists>
+            </file>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.glassfish.maven.plugin</groupId>
+                    <artifactId>maven-glassfish-plugin</artifactId>
+                    <configuration>
+                        <terse>true</terse>
+                        <echo>true</echo>
+                        <debug>true</debug>
+                        <glassfishDirectory>${glassfish.glassfishDirectory}</glassfishDirectory>
+                        <user>${glassfish.user}</user>
+                        <adminPassword>${glassfish.adminPassword}</adminPassword>
+                        <domain>
+                            <name>${glassfish.domain.name}</name>
+                            <host>${glassfish.domain.host}</host>
+                            <adminPort>${glassfish.domain.adminPort}</adminPort>
+                        </domain>
+                        <components>
+                            <component>
+                                <name>${project.artifactId}</name>  
+                                <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                            </component>
+                        </components>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
 
 </project>

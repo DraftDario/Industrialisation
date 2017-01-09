@@ -89,9 +89,9 @@
                     <debug>true</debug>
                     <terse>true</terse>
                     <domain>
-                        <name>${glassfish.domain}</name>
-                        <host>${glassfish.host}</host>
-                        <adminPort>${glassfish.adminport}</adminPort>
+                        <name>GlassFish Server Integration</name>
+                        <host>localhost</host>
+                        <adminPort>4849</adminPort>
                     </domain>
                     <components>
                         <component>

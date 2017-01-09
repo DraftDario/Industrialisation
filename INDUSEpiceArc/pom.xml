@@ -84,7 +84,7 @@
                 <configuration>
                     <glassfishDirectory>D:\Cours_HEG\01_PermierSemestre\625-1.1 Industrialisation du logiciel\glassfish-4.1.1\glassfish4\glassfish</glassfishDirectory>
                     <user>${glassfish.user}</user>
-                    <passwordFile>D:\Cours_HEG\01_PermierSemestre\625-1.1 Industrialisation du logiciel\glassfish-4.1.1\glassfish4\glassfish\domains\domain1\config\domain-passwords</passwordFile>
+                    <passwordFile>D:\Cours_HEG\01_PermierSemestre\625-1.1 Industrialisation du logiciel\glassfish-4.1.1\glassfish4\glassfish\domains\domain1\config\local-password</passwordFile>
                     <echo>true</echo>
                     <debug>true</debug>
                     <terse>true</terse>

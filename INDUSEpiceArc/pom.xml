@@ -7,13 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     
-    <distributionManagement>
-        <repository>
-            <id>integr</id>
-            <name>GlassFish Server Integration</name>
-            <url>localhost:8081\applications\</url>
-        </repository>
-    </distributionManagement>
     <name>INDUSEpiceArc</name>
 
     <properties>
@@ -83,6 +76,30 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <glassfishDirectory>D:\Cours_HEG\01_PermierSemestre\625-1.1 Industrialisation du logiciel\glassfish-4.1.1\glassfish4\glassfish</glassfishDirectory>
+                    <user>${glassfish.user}</user>
+                    <passwordFile>D:\Cours_HEG\01_PermierSemestre\625-1.1 Industrialisation du logiciel\glassfish-4.1.1\glassfish4\glassfish\domains\${glassfish.domain}\config\${glassfish.pwdfile}</passwordFile>
+                    <echo>true</echo>
+                    <debug>true</debug>
+                    <terse>true</terse>
+                    <domain>
+                        <name>${glassfish.domain}</name>
+                        <host>${glassfish.host}</host>
+                        <adminPort>${glassfish.adminport}</adminPort>
+                    </domain>
+                    <components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                        </component>
+                    </components>
+                </configuration>  
             </plugin>
         </plugins>
     </build>

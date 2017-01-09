@@ -6,7 +6,14 @@
     <artifactId>INDUSEpiceArc</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
+    
+    <distributionManagement>
+        <repository>
+            <id>integr</id>
+            <name>GlassFish Server Integration</name>
+            <url>localhost:8081\applications\</url>
+        </repository>
+    </distributionManagement>
     <name>INDUSEpiceArc</name>
 
     <properties>
